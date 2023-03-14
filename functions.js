@@ -42,6 +42,35 @@ function drawCircle(centerX, centerY, radius, strokeColor, lineWidth) {
     ctx.stroke();
     ctx.closePath();
 }
+function drawCrown(x, y, width, height, lineColor, lineWidth) {
+    const OFFSET_X = x - width / 2;
+    const OFFSET_Y = y - height / 2;
+
+    const OFFSET = width / 3;
+    const BASE_OFFSET = width * 0.2;
+    const TOPS_OFFSET = height * 0.3;
+
+    ctx.strokeStyle = lineColor;
+    ctx.lineWidth = lineWidth;
+
+    ctx.translate(OFFSET_X, OFFSET_Y);
+    ctx.beginPath();
+
+    ctx.moveTo(0, 0);
+    ctx.lineTo(OFFSET, TOPS_OFFSET);
+    ctx.lineTo(width / 2, 0);
+    ctx.lineTo(OFFSET * 2, TOPS_OFFSET);
+    ctx.lineTo(width, 0);
+    
+    ctx.lineTo(width - BASE_OFFSET, height);
+    ctx.lineTo(BASE_OFFSET, height);
+    ctx.lineTo(0, 0);
+
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.translate(-OFFSET_X, -OFFSET_Y);
+}
 
 function getPos(x, y) {
     return {x, y};
@@ -69,4 +98,12 @@ const CURSOR_POINTER = "var(--cursor-pointer)";
 
 function setCursor(cursor) {
     canvas.style.cursor = cursor;
+}
+
+function getType(object) {
+    return object.constructor.name;
+}
+
+function checkCoordinates(x, y) {
+    return !(x < 0 || x >= FIELDS_IN_ROW || y < 0 || y >= FIELDS_IN_ROW);
 }

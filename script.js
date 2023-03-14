@@ -11,6 +11,7 @@ const TYPE_DARK = 1;
 let turn = TYPE_LIGHT;
 const points = [];
 
+// Initialize the game
 function init() {
     canvas.width = BORDER_SIZE;
     canvas.height = BORDER_SIZE;
@@ -29,10 +30,12 @@ function init() {
     update();
 }
 
+// Update
 function update() {
     requestAnimationFrame(update);
     render();    
 }
+// Render
 function render() {
     ctx.fillStyle = "#121212";
     ctx.fillRect(0, 0, BORDER_SIZE, BORDER_SIZE);
@@ -41,6 +44,7 @@ function render() {
     renderCheckers();
 }
 
+// Render the board
 function renderBoard() {
     for(let x = 0; x < FIELDS_IN_ROW; x++) {
         for(let y = 0; y < FIELDS_IN_ROW; y++) {
@@ -59,6 +63,7 @@ const BORDER_WIDTH = FIELD_SIZE * 0.08;
 const BORDER_LIGHT_COLOR = "#a08a5b";
 const BORDER_DARK_COLOR = "#351c0c";
 
+// Render a single field
 function renderField(x, y, colorType) {
     let posX = x * FIELD_SIZE;
     let posY = y * FIELD_SIZE;
@@ -71,6 +76,7 @@ function renderField(x, y, colorType) {
     ctx.fillRect(posX, posY, BORDER_WIDTH, FIELD_SIZE);
 }
 
+// Event performing if the mouse is clicked
 function clickMouse(event) {
     let mouseX = getMouseX(event);
     let mouseY = getMouseY(event);
@@ -82,17 +88,35 @@ function clickMouse(event) {
 
     let clickedMove = getMoveOfChecker(mouseX, mouseY);
     if(clickedMove != null) {
-        clickedMove.checker.move(clickedMove.move);
-        turn = !turn;
-        console.log(clickedMove);
-        if(clickedMove.move.toCapture) {
-            captureChecker(clickedMove.move.toCapture);
-        }
+        clickMove(clickedMove);
     }
 }
+// Event performing if the mouse is moved
 function moveMouse(event) {
     let mouseX = getMouseX(event);
     let mouseY = getMouseY(event);
 
     setCursor(getChecker(mouseX, mouseY) || getMoveOfChecker(mouseX, mouseY) ? CURSOR_POINTER : CURSOR_DEFAULT);
+}
+
+// Count how many checkers both players have 
+function countPlayersCheckers() {
+    let lightCheckers = 0;
+    let darkCheckers = 0;
+
+    for(let checker of checkers) {
+        if(checker.color == TYPE_LIGHT) lightCheckers++;
+        if(checker.color == TYPE_DARK) darkCheckers++;
+    }
+
+    let victor = null;
+    if(lightCheckers == 0) victor = TYPE_DARK;
+    if(darkCheckers == 0) victor = TYPE_LIGHT;
+
+    if(victor != null) {
+        victory(victor);
+    }
+}
+// Victory!
+function victory(playerColor) {
 }
