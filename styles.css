@@ -1,0 +1,13 @@
+:root {
+    --cursor-default: url("images/cursor_default.png"), auto;
+    --cursor-pointer: url("images/cursor_pointer.png"), auto;
+}
+
+html {
+    cursor: var(--cursor-default);
+}
+body {
+    background-color: black;
+    margin-top: 50px;
+    text-align: center;
+}
